@@ -1,0 +1,68 @@
+<div class="container">
+    <div class="row">
+        <form action="Logout" method="post">
+            <button type="submit">Logout</button>
+        </form>
+        <h1>Welcome to the WEding Planner</h1>
+    </div>
+    <div class="row">
+        <table>
+            <tr>
+                <th>Wedding</th>
+                <th>Date</th>
+                <th>Guests</th>
+                <th>Action</th>
+            </tr>
+            @{
+                foreach (Wedding w in ViewBag.AllWeddings)
+                {
+                    <tr>
+                    <td><a href="WeddingDetails/@w.WeddingId">@w.WedderOne & @w.WedderTwo</a></td>
+                    <td>@w.Date</td>
+                    <td>@{
+                            int count = 0;
+                            foreach (Attendance a in ViewBag.WeddingCounts)
+                            {
+                                if (@a.WeddingId == @w.WeddingId)
+                                {
+                                    count++;
+                                }
+                            }
+                            @count
+                        }
+                    </td>
+                    <td>@{
+                            if (ViewBag.CurrentUserId == @w.CreatorId)
+                            {
+                                <form action="Delete/@w.WeddingId" method="post"><input type="submit" value="Delete"></form>
+                            }
+                            else
+                            {
+                                if(ViewBag.HasAttendees)
+                                {
+                                    foreach (Attendance a in ViewBag.Attendees.Weddings)
+                                    {
+                                        
+                                        if (@a.Wedding.WeddingId == @w.WeddingId)
+                                        {
+                                            <form action="unRSVP" method="post"><input type="hidden" name="WeddingId" value="@w.WeddingId"><input type="hidden" name="UserId" value="@ViewBag.CurrentUserId"><input type="submit" value="Un-RSVP"></form>
+                                        }
+                                        else
+                                        {
+                                            <form action="RSVP" method="post"><input type="hidden" name="WeddingId" value="@w.WeddingId"><input type="hidden" name="UserId" value="@ViewBag.CurrentUserId"><input type="submit" value="RSVP"></form>
+                                        }
+                                    }
+                                }
+                                else {
+                                    <form action="RSVP" method="post"><input type="hidden" name="WeddingId" value="@w.WeddingId"><input type="hidden" name="UserId" value="@ViewBag.CurrentUserId"><input type="submit" value="RSVP"></form>
+                                }
+                            }
+                        }
+                    </td>
+                    </tr>
+                }
+            }
+        </table>
+        <h1><button><a href="newWedding">Add a Wedding!</a></button></h1>
+    </div>
+</div>

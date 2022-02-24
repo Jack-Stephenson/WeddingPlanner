@@ -1,0 +1,16 @@
+<div class="container">
+    <div class="row">
+        <h1>Welcome to @ViewBag.Wedding.WedderOne and @ViewBag.Wedding.WedderTwo's wedding!</h1><a asp-action="Dashboard">Dashboard</a></h2><h2><form asp-action="Logout" method="post"><button type="submit">Logout</button></form></h2>
+    </div>
+    <div class="row">
+        <h3>Guests:</h3>
+        <ul>
+            @{
+                foreach(Attendance g in ViewBag.Wedding.Guests)
+                {
+                    <li>@g.User.FirstName @g.User.LastName</li>
+                }
+            }
+        </ul>
+    </div>
+</div>
