@@ -35,7 +35,7 @@ namespace WeddingPlanner.Controllers
                 User _User = _context.Users.FirstOrDefault(d => d.Email == HttpContext.Session.GetString("UserEmail"));
                 return Redirect($"Dashboard/{_User.UserId}");
             }
-            return View("Index");
+            return RedirectToAction("Index");
         }
         [HttpGet("Dashboard/{uid}")]
         public IActionResult Dashboard(int uid)
@@ -49,7 +49,7 @@ namespace WeddingPlanner.Controllers
                 ViewBag.CurrentUserId = uid;
                 return View();
             }
-            return View("Index");
+            return RedirectToAction("Index");
         }
         [HttpGet("Dashboard/WeddingDetails/{wid}")]
         public IActionResult WeddingDetails(int wid)
@@ -58,7 +58,7 @@ namespace WeddingPlanner.Controllers
                 ViewBag.Wedding = _context.Weddings.Include(s=>s.Guests).ThenInclude(p=>p.User).FirstOrDefault(w=>w.WeddingId == wid);
                 return View();
             }
-            return View("Index");
+            return RedirectToAction("Index");
         }
         [HttpGet("Dashboard/newWedding")]
         public IActionResult newWedding()
@@ -68,7 +68,7 @@ namespace WeddingPlanner.Controllers
                 ViewBag.CurrentUser = _User.UserId;
                 return View();
             }
-            return View("Index");
+            return RedirectToAction("Index");
         }
         [HttpPost("Dashboard/makeWedding")]
         public IActionResult makeWedding(Wedding newWedding)
